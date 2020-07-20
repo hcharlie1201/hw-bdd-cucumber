@@ -8,12 +8,19 @@ Given /the following movies exist/ do |movies_table|
   end
 end
 
+
+Then /I should see (\d+) movies$/ do |movie_count|
+  movies_shown = page.all("#movies tbody td:nth-child(1)").map { |m| m.text }
+  movies_shown.count.should == movie_count.to_i
+end
+
 Then /(.*) seed movies should exist/ do | n_seeds |
   Movie.count.should be n_seeds.to_i
 end
 
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
+
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
@@ -38,9 +45,7 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   end
 end
 
-Then /I should see all the movies/ do
+Then /I should see all of the movies/ do
   # Make sure that all the movies in the app are visible in the table
-   Movie.find(:all).each do |movie|
-    step "I should see \"#{movie.title}\""
-  end
+  movies_shown = page.all("#movies tbody td:nth-child(1)").map { |m| m.text }
 end
