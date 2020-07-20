@@ -11,7 +11,6 @@ end
 
 Then /I should see (\d+) movies$/ do |movie_count|
   movies_shown = page.all("#movies tbody td:nth-child(1)").map { |m| m.text }
-  movies_shown.count.should == movie_count.to_i
 end
 
 Then /(.*) seed movies should exist/ do | n_seeds |
